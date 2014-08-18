@@ -13,7 +13,7 @@ module FluentExt
     attr_accessor :log
 
     def initialize(logger)
-      super
+      super()
 
       @cache1_key = nil
       @cache1_time = nil
@@ -60,8 +60,7 @@ module FluentExt
   class JSONParser < GenericParser
     def parse(text)
       record = Yajl.load(text)
-      #return parse_time(record)
-      return record
+      return parse_time(record)
     rescue Yajl::ParseError
       unless @suppress_parse_error_log
         @log.warn "pattern not match(json): #{text.inspect}: #{$!}"
