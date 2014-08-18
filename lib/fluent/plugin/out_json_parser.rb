@@ -1,9 +1,9 @@
 require_relative './parser'
 
 class Fluent::ParserOutput < Fluent::Output
-    Fluent::Plugin.register_output('json-parser', self)
+    Fluent::Plugin.register_output('json_parser', self)
     config_param :tag, :string, :default => nil
-    config_param :reserve_data, :bool, :default => true
+    config_param :reserve_data, :bool, :default => false
     config_param :key_name, :string
 
     attr_reader :parser
@@ -31,12 +31,12 @@ class Fluent::ParserOutput < Fluent::Output
         es.each do |time,record|
             raw_value = record[@key_name]
             t,values = raw_value ? parse(raw_value) : [nil,nil]
-            t || = time
+            t ||= time
 
             r = @reserve_data ? record.merge(r) : values 
 
             if r
-                Fluent::Engine,emit(tag,t,r)
+                Fluent::Engine.emit(tag,t,r)
             end
         end
 
