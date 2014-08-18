@@ -33,8 +33,7 @@ class Fluent::ParserOutput < Fluent::Output
             t,values = raw_value ? parse(raw_value) : [nil,nil]
             t ||= time
 
-            r = @reserve_data ? record.merge(r) : values 
-
+            r = @reserve_data ? record.merge(values) : values 
             if r
                 Fluent::Engine.emit(tag,t,r)
             end
